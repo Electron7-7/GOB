@@ -14,13 +14,12 @@ config/name="Mesh to OBJ Converter"
 run/main_scene="res://Converter.tscn"
 config/features=PackedStringArray("4.0")
 boot_splash/show_image=false
-boot_splash/fullsize=false
-boot_splash/use_filter=false
+config/icon="res://icon.png"
 
 [display]
 
-window/size/viewport_width=1280
-window/size/viewport_height=720
+window/size/viewport_width=1680
+window/size/viewport_height=900
 window/size/resizable=false
 
 [physics]

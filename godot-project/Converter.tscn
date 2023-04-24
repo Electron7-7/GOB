@@ -1,12 +1,155 @@
-[gd_scene load_steps=2 format=3 uid="uid://b0spf658wm4q0"]
+[gd_scene load_steps=9 format=3 uid="uid://b0spf658wm4q0"]
 
 [ext_resource type="Script" path="res://Converter.gd" id="1_2etrw"]
+[ext_resource type="Theme" uid="uid://cv441vcdxjugc" path="res://main_theme.tres" id="1_yebju"]
 
-[node name="Converter" type="Control"]
-layout_mode = 3
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t2a7j"]
+bg_color = Color(0.12549, 0.156863, 0.160784, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5scy5"]
+bg_color = Color(0.117647, 0.211765, 0.207843, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.0509804, 0.211765, 0.176471, 0.819608)
+border_blend = true
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_syg5j"]
+bg_color = Color(0.141176, 0.25098, 0.243137, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.0509804, 0.211765, 0.176471, 0.819608)
+border_blend = true
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ddwsv"]
+bg_color = Color(0.109804, 0.203922, 0.2, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.027451, 0.152941, 0.12549, 0.819608)
+border_blend = true
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mb158"]
+bg_color = Color(0.207843, 0.231373, 0.227451, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.168627, 0.25098, 0.231373, 0.756863)
+border_blend = true
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_oe5ig"]
+
+[node name="Converter" type="Panel"]
+clip_contents = true
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.00222
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_t2a7j")
+script = ExtResource("1_2etrw")
+metadata/_edit_use_anchors_ = true
+
+[node name="Popup" type="Popup" parent="."]
+title = "File Conversion in Progress..."
+position = Vector2i(550, 384)
+size = Vector2i(500, 150)
+borderless = false
+always_on_top = true
+
+[node name="Label" type="Label" parent="Popup"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
-script = ExtResource("1_2etrw")
+grow_vertical = 2
+text = "Mesh files (especially from Godot 3.x and earlier) always take a while to convert to .obj format. Windows will probably tell you that the app is not responding but don't close it! Once the window un-freezes, your converted file will show up in the same directory as this .exe"
+vertical_alignment = 1
+autowrap_mode = 2
+text_overrun_behavior = 3
+
+[node name="OpenFile" type="FileDialog" parent="."]
+title = "Load File(s)..."
+position = Vector2i(488, 235)
+size = Vector2i(675, 521)
+ok_button_text = "Open"
+mode_overrides_title = false
+file_mode = 1
+access = 2
+filters = PackedStringArray("*.mesh;Mesh File")
+
+[node name="Input" type="LineEdit" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.150595
+anchor_top = 0.413333
+anchor_right = 0.93631
+anchor_bottom = 0.473333
+offset_left = -1.52588e-05
+theme = ExtResource("1_yebju")
+placeholder_text = "input_file.mesh"
+editable = false
+select_all_on_focus = true
+caret_blink = true
+caret_blink_interval = 0.82
 metadata/_edit_use_anchors_ = true
+
+[node name="Input_Select" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0546191
+anchor_top = 0.421111
+anchor_right = 0.125071
+anchor_bottom = 0.465422
+offset_left = 0.23999
+offset_right = -0.119995
+offset_bottom = 0.119995
+theme = ExtResource("1_yebju")
+text = "Open..."
+icon_alignment = 1
+expand_icon = true
+metadata/_edit_use_anchors_ = true
+
+[node name="Convert" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.420238
+anchor_top = 0.521111
+anchor_right = 0.525
+anchor_bottom = 0.623333
+theme = ExtResource("1_yebju")
+theme_override_font_sizes/font_size = 40
+theme_override_styles/normal = SubResource("StyleBoxFlat_5scy5")
+theme_override_styles/hover = SubResource("StyleBoxFlat_syg5j")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_ddwsv")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_mb158")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_oe5ig")
+text = "Convert"
+metadata/_edit_use_anchors_ = true
+
+[connection signal="file_selected" from="OpenFile" to="." method="_on_open_file_file_selected"]
+[connection signal="files_selected" from="OpenFile" to="." method="_on_open_file_files_selected"]
+[connection signal="pressed" from="Input_Select" to="." method="_on_input_select_pressed"]
+[connection signal="pressed" from="Convert" to="." method="_on_convert_pressed"]

@@ -1,8 +1,19 @@
 extends Control
 
+@export var mesh_file:Mesh
+
+@onready var open:FileDialog = $OpenFile
+@onready var input:LineEdit = $Input
+
+var resource_name:String = ""
+var multiple:bool = false
+var mesh_paths:PackedStringArray
+
+func _process(_delta):
+	$Convert.disabled = true if input.text == "" else false
+
 # Dump given mesh to obj file
 func save_mesh_to_obj(mesh, file_name, object_name):
-
 	# Object definition
 	var _output = "o " + object_name + "\n"
 
@@ -71,3 +82,33 @@ func save_mesh_to_obj(mesh, file_name, object_name):
 	var file = FileAccess.open("res://" + file_name, FileAccess.WRITE)
 	file.store_string(_output)
 	file.close()
+
+
+func _on_input_select_pressed():
+	open.visible = true
+
+
+func _on_open_file_file_selected(path):
+	input.text = path
+	multiple = false
+	mesh_file = load(path)
+
+
+func _on_open_file_files_selected(paths):
+	mesh_paths = paths
+	multiple = true
+	input.text = "multiple files selected"
+
+
+func _on_convert_pressed():
+	$Popup.visible = true
+	await get_tree().create_timer(1.0).timeout
+	if not multiple:
+		resource_name = input.text.trim_suffix(".mesh")
+		save_mesh_to_obj(mesh_file, input.text, resource_name)
+	else:
+		for item in mesh_paths:
+			mesh_file = load(item)
+			resource_name = item.trim_suffix(".mesh")
+			var output = item.trim_suffix(".mesh") + ".converted.obj"
+			save_mesh_to_obj(mesh_file, output, resource_name)
